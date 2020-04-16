@@ -65,14 +65,14 @@ int main(void) {
 		else if (input == 2){
 			system("cls");
 			blue();   
-			printf("\n\t\t\t\t[static]\n\n");
+			printf("\n\t\t\t\t\t[static]\n\n");
 			statics();
 			getch();
 		}
 		else if (input == 3){
 			system("cls");
 			blue();
-			printf("\n\t\t\t[View User Records]\n\n");
+			printf("\n\t\t\t\t[View User Records]\n\n");
 			views();
 			getch();
 		}
@@ -118,6 +118,7 @@ void help() {
 void typing(){
 		clock_t start, end;
 		double sec=0.0;
+		double speed;
 		FILE *fp =NULL;
 		system("cls");
 		random = rand()%5+1; // 난수 생성
@@ -133,7 +134,8 @@ void typing(){
   		struct tm tm = *localtime(&t);
 		scanf("%s", &answer);
 		end=clock();
-		sec = (double)(end-start);//진행시간
+		sec = (double)(end-start);//진행시간		
+		speed = strlen(quiz)/(sec/1000);
 		green();
 		printf("======================================\n\n");
 		if(strcmp(answer, quiz)==0){
@@ -144,7 +146,7 @@ void typing(){
 				printf("\nWRITE FAIL\n\n"); 
 			}
 			else{
-				fprintf(fp,"%s %d %.2lf %d-%d-%d %d:%d:%d\n", &name, random, sec,
+				fprintf(fp,"%s %d %.2lf %.2lf %d-%d-%d %d:%d:%d\n", &name, random, sec, speed,
 				tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,tm.tm_hour, 
 				tm.tm_min, tm.tm_sec
 				); //이름, 난수, 점수기록
@@ -186,6 +188,7 @@ void statics(){
 	char name1[10];
 	int random1;
     double sec1;
+    double speed1;
     char day1[20];
     char time1[20];
 	white();
@@ -194,14 +197,14 @@ void statics(){
 		printf("No data");
 	}
 	else{
-			while (EOF!= fscanf(fp2,"%s %d %lf\n %s %s",name1,&random1,&sec1,day1,time1)) // 파일의 마지막까지 읽으면서
+			while (EOF!= fscanf(fp2,"%s %d %lf %lf %s %s\n",name1,&random1,&sec1,&speed1,day1,time1)) // 파일의 마지막까지 읽으면서
 			{	
-				printf("name: %s   lesson : %d   duration : %.2lf s   date: %s   time : %s\n"
-				,name1,random1,sec1/1000,day1,time1);
+				printf("name: %s   lesson : %d   duration : %.2lfs   speed : %.2lf   date: %s   time : %s\n"
+				,name1,random1,sec1/1000,speed1,day1,time1);
 
 			}
 			green();
-			printf("================================================================================");
+			printf("===============================================================================================");
 		}
 }
 
@@ -214,6 +217,7 @@ void views(){
 	char name2[10];
 	int random2;
     double sec2;
+    double speed2;
     char day2[20];
     char time2[20];
     
@@ -223,20 +227,20 @@ void views(){
 		printf("\n\nNo data");
 	}
 	else{
-			while (EOF!= fscanf(fp3,"%s %d %lf\n %s %s",name2,&random2,&sec2,day2,time2)) // 파일의 마지막까지 읽으면서
+			while (EOF!= fscanf(fp3,"%s %d %lf %lf %s %s\n",name2,&random2,&sec2,&speed2,day2,time2)) // 파일의 마지막까지 읽으면서
 			{
 				if(strcmp(name,name2)==0){
 					white();
-					printf("name: %s   lesson : %d   duration : %.2lf s   date: %s   time : %s\n"
-				,name2,random2,sec2/1000,day2,time2);
+					printf("name: %s   lesson : %d   duration : %.2lfs   speed: %.2lfs   date: %s   time : %s\n"
+				,name2,random2,sec2/1000,speed2,day2,time2);
 				}
 				else{
 				}
 				
 			}
 			green();
-			printf("================================================================================");
-			printf("\n\n\t\t\t   [Reference]\n");
-			printf("\n\t  If nothing came up, there is no matching user.");
+			printf("===============================================================================================");
+			printf("\n\n\t\t\t\t   [Reference]\n");
+			printf("\n\t\t  If nothing came up, there is no matching user.");
 		}
 }
